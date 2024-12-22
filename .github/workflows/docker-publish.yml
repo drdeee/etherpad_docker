@@ -25,7 +25,7 @@ jobs:
           - plugins: "ep_headings2"
             tag: latest
           - plugins: "ep_headings2 ep_padlist2"
-            tag: latest_padlist
+            tag: padlist
 
     runs-on: ubuntu-latest
     permissions:
