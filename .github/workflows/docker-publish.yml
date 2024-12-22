@@ -19,6 +19,13 @@ env:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        tags:
+          - plugins: "ep_headings2"
+            tag: latest
+          - plugins: "ep_headings2 ep_padlist2"
+            tag: latest_padlist
 
     runs-on: ubuntu-latest
     permissions:
@@ -72,10 +79,12 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{matrix.tags.tag}}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args:
+            - PLUGINS=${{matrix.tags.plugins}}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
